@@ -18,7 +18,9 @@ jobs:
         node-version: 18
 
     - name: Install Dependencies
-      run: npm install --no-audit --no-fund
+      run: |
+        npm install --include=optional --force
+        npm rebuild
 
     - name: Build Web App
       run: npm run build
