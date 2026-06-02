@@ -15,12 +15,14 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: 18
+        node-version: 20
 
-    - name: Install Dependencies
+    - name: Clean Cache and Clean Install
       run: |
-        npm install --include=optional --force
-        npm rebuild
+        npm cache clean --force
+        rm -rf node_modules
+        npm i -g @tailwindcss/oxide
+        npm install --include=optional
 
     - name: Build Web App
       run: npm run build
@@ -29,8 +31,8 @@ jobs:
       run: |
         npm install @capacitor/core @capacitor/cli
         npm install @capacitor/android
-        npx cap init "Rajmudra Billing" "com.rajmudra.billing" --web-dir=dist
-        npx cap add android
+        npx cap init "Rajmudra Billing" "com.rajmudra.billing" --web-dir=dist || true
+        npx cap add android || true
 
     - name: Sync Capacitor
       run: npx cap sync android
